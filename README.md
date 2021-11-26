@@ -133,11 +133,11 @@ let a <- [
 
 Any additional uses for the <- symbol? File a PR!
 
-## <-! (lower than, hyphen, exclamation mark) (Force-assignment operator)
+## <-! (lower than, hyphen, exclamation mark) (Force-assignment move operator)
 
 Assigns a resource value to an optional variable if the variable is nil (if it is not nil, it aborts)
 
-This is only used for resources, as they use the exclamation mark.
+This is only used for resources, as they use the move operator. [More info](https://docs.onflow.org/cadence/language/values-and-types/#force-assignment-operator--)
 
 ```cadence
 pub resource R {}
