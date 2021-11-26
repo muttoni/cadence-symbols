@@ -303,11 +303,13 @@ let c = 1 ?? 2
 
 The exclamation mark can be used in several ways:
 
-When it immediately **precedes** a variable, it negates it.
+When it immediately **precedes** a boolean-type variable, it negates it.
 
 ```cadence
-let a = false;
-let b = !a;
+let a: Bool = true;
+let b: Bool = !a;
+
+// b is false
 ```
 
 When it immediately **succeeds** an *optional* variable, it force-unwraps it. Force-unwrapping returns the value inside an optional if it contains a value, or panics and aborts the execution if the optional has no value, i.e., the optional value is nil.
