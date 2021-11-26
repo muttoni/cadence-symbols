@@ -149,17 +149,38 @@ a <-> b;
 
 Any additional uses for the <-> symbol? File a PR! 
 
-## + (plus), - (minus), * (asterisk), / (forward slash), % (percentage sign)
+## + (plus), - (minus), * (asterisk), % (percentage sign)
 
 These are all typical arithmetic operators. 
 
 - Addition: +
 - Subtraction: -
 - Multiplication: *
-- Division: /
 - Remainder: %
 
 [More info](https://docs.onflow.org/cadence/language/operators/#arithmetic)
+
+## / (forward slash)
+
+The / (forward slash) symbol can be used in two ways:
+
+1. As a division operator `let a = 1/2`
+
+```cadence
+let a: Fix64= 2.0
+let b: Fix64= 3.0
+let c = a / b // = 0.66666666
+```
+[More info](https://docs.onflow.org/cadence/language/values-and-types/#fixed-point-numbers) on division and Fixed point numbers in Cadence
+
+2. As a [Path](https://docs.onflow.org/cadence/language/accounts/#paths)
+
+```cadence
+let storagePath = /storage/path
+storagePath.toString()  // is "/storage/path"
+```
+
+[More info](https://docs.onflow.org/cadence/language/accounts/#paths) on Paths
 
 ## & (ampersand)
 
@@ -174,7 +195,6 @@ References are created by using the & operator, followed by the object, the as k
 ```cadence
 let a: String = "hello"
 let refOfA: &String = &a as &String
-
 ```
 
 References may be authorized or unauthorized.
@@ -184,7 +204,6 @@ Authorized references have the auth modifier, i.e. the full syntax is auth &T, w
 ```cadence
 let a: String = "hello"
 let refOfA: &String = &a as auth &String
-
 ```
 
 It can be also used as a logical operator (AND), by appearing twice in a row, similar to the double pipe symbol (|| which represents OR):
