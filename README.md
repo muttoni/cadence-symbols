@@ -1,15 +1,51 @@
-# Cadence Symbols Glossary
+---
+title: Symbols and Operators Glossary
+---
 
-A simple TLDR reference containing Cadence's symbols and operators and what they do. 
+A simple glossary containing Cadence's symbols and operators and their use (sorted in phonetical alphabetical order). Links to the relevant reference documentation are also provided.
 
-Just <kbd>CTRL</kbd>/<kbd>⌘</kbd> + <kbd>F</kbd> and type in the symbol you want to look up.
+Tip: <kbd>CTRL</kbd>/<kbd>⌘</kbd> + <kbd>F</kbd> and type in the symbol or operator you want to look up.
 
-Please feel free to send a PR with more/better examples and symbols.
+## & (ampersand)
+
+The & (ampersand) symbol has several uses. 
+
+### Reference
+
+The more Cadence-specific use is that of a Reference. In Cadence it is possible to create references to objects, i.e. resources or structures. A reference can be used to access fields and call functions on the referenced object. 
+
+References are created by using the & operator, followed by the object, the as keyword, and the type through which they should be accessed. The given type must be a supertype of the referenced object's type.
+
+[More info](https://docs.onflow.org/cadence/language/references/)
+
+```cadence
+let a: String = "hello"
+let refOfA: &String = &a as &String
+```
+
+References may also be authorized if the `&` symbol is preceded by `auth` (otherwise the reference is unauthorized)
+
+Authorized references have the auth modifier, i.e. the full syntax is `auth &T`, whereas unauthorized references do not have a modifier. Lastly, references are ephemeral, i.e they cannot be stored. [More info](https://docs.onflow.org/cadence/language/references/)
+
+```cadence
+let a: String = "hello"
+let refOfA: &String = &a as auth &String
+```
+
+### Logical Operator
+
+It can be also used as a logical operator (AND), by appearing twice in succession, similar to the double pipe symbol (`||`, which represents OR):
+
+```cadence
+let a = true
+let b = false
+
+let c = a && b // false
+```
 
 ## @ (at) 
 
-The @ symbol before a Type declaration is used to annotate whether a specific type is a Resource. Resources must therefore adhere to the Resource-specific lifecycle in Cadence (create, destroy, move). [More info](https://docs.onflow.org/cadence/language/resources/)
-
+The @ symbol before a Type declaration is used to annotate whether a specific type is a [resource](https://docs.onflow.org/cadence/language/resources/). Resources must therefore adhere to the resource-specific lifecycle in Cadence (create, destroy, move). [More info](https://docs.onflow.org/cadence/language/resources/)
 
 ```cadence
 // Declare a resource named `SomeResource`
@@ -30,21 +66,9 @@ pub fun use(resource: @SomeResource) {
 }
 ```
 
-Any additional uses for the @ symbol? File a PR!
-
-## = (equals)
-
-A simple assignment
-
-```cadence
-let a = 1; // assigns a value to a 
-```
-
-
-Any additional uses for the = symbol? File a PR!
-
 ## : (colon)
 
+### Type Declaration
 If a colon follows a variable/constant/function declaration, it is used to declare its type.
 
 ```cadence
@@ -57,8 +81,9 @@ fun addOne(x: Int): Int { // return type of Int
 }
 ```
 
-It can also be used in ternary operations to represent the "otherwise" section, such as the following:
+### Ternary Operator
 
+It can also be used in ternary operations to represent the "otherwise" section, such as the following:
 
 ```cadence
 let a = 1 > 2 ? 3 : 4
@@ -68,49 +93,48 @@ let a = 1 > 2 ? 3 : 4
 //   "if NO, then set a = 4.
 ```
 
+## = (equals)
 
-Any additional uses for the : symbol? File a PR!
-
-## _ (underscore)
-
-In Cadence, the _ (underscore) has several uses.
-
-It can be used in variable names, or to split up numerical components.
-
-Examples:
+A simple assignment
 
 ```cadence
-let _a = true; // used as a variable name 
-
-// or
-
-let b = 100_000_000 // used to split up a number (supports all number types, e.g. 0b10_11_01)
+let a = 1; // assigns a value to a 
 ```
 
-It can also be used to omit the function argument label. Usually argument labels precede the parameter name. The special argument label _ indicates that a function call can omit the argument label. [More info](https://docs.onflow.org/cadence/language/functions/#function-declarations) 
+## ! (exclamation mark)
+
+The exclamation mark has a different effect whether it precedes or succeeds a variable.
+
+When it immediately **precedes** a boolean-type variable, it negates it.
 
 ```cadence
-// The special argument label _ is specified for the parameter,
-// so no argument label has to be provided in a function call.
-//
-fun double(_ x: Int): Int {
-    return x * 2
-}
+let a: Bool = true;
+let b: Bool = !a;
+
+// b is false
+```
+
+When it immediately **succeeds** an *optional* variable, it force-unwraps it. Force-unwrapping returns the value inside an optional if it contains a value, or panics and aborts the execution if the optional has no value, i.e., the optional value is nil. [More info](https://docs.onflow.org/cadence/language/values-and-types/#force-unwrap-)
+
+```cadence
+let a: Int? = nil;
+let b: Int? = 3; 
+
+let c: Int = a! // panics, because = nil
+let d: Int = b! // initialized correctly as 3
 ```
 
 
-Any additional uses for the _ symbol? File a PR! 
+## <- (lower than, hyphen) (Move operator)
 
-## <- (lower than, hyphen) (move operator)
-
-The move operator <- replaces the assignment operator = in assignments that involve resources. To make assignment of resources explicit, the move operator <- must be used when:
+The move operator `<-` replaces the assignment operator `=` in assignments that involve resources. To make assignment of resources explicit, the move operator `<-` must be used when:
 
 - the resource is the initial value of a constant or variable,
 - the resource is moved to a different variable in an assignment,
 - the resource is moved to a function as an argument
 - the resource is returned from a function.
 
-This is because in Cadence resources are linear types which can only exist in a single place at a time. So the move operator figuratively helps show that that resource is being moved and will no longer be available in its previous location/state once it is moved.
+This is because resources in Cadence are linear types meaning they can only exist in a single place at a time. So the move operator figuratively helps underline that that resource is being moved and will no longer be available in its previous location/state once it is moved.
 
 [More info](https://docs.onflow.org/cadence/language/resources/#the-move-operator--)
 
@@ -131,11 +155,9 @@ let a <- [
 ]
 ```
 
-Any additional uses for the <- symbol? File a PR!
-
 ## <-! (lower than, hyphen, exclamation mark) (Force-assignment move operator)
 
-Assigns a resource value to an optional variable if the variable is nil (if it is not nil, it aborts)
+Assigns a resource value to an optional variable if the variable is `nil` (if it is not nil, it aborts)
 
 This is only used for resources, as they use the move operator. [More info](https://docs.onflow.org/cadence/language/values-and-types/#force-assignment-operator--)
 
@@ -159,8 +181,6 @@ a <-> b;
 // b = 1
 ```
 
-
-Any additional uses for the <-> symbol? File a PR! 
 
 ## + (plus), - (minus), * (asterisk), % (percentage sign)
 
@@ -194,40 +214,6 @@ storagePath.toString()  // is "/storage/path"
 ```
 
 [More info](https://docs.onflow.org/cadence/language/accounts/#paths) on Paths
-
-## & (ampersand)
-
-The & (ampersand) symbol has several uses. 
-
-The more Cadence-specific use is that of a Reference. In Cadence it is possible to create references to objects, i.e. resources or structures. A reference can be used to access fields and call functions on the referenced object. 
-
-References are created by using the & operator, followed by the object, the as keyword, and the type through which they should be accessed. The given type must be a supertype of the referenced object's type.
-
-[More info](https://docs.onflow.org/cadence/language/references/)
-
-```cadence
-let a: String = "hello"
-let refOfA: &String = &a as &String
-```
-
-References may be authorized or unauthorized.
-
-Authorized references have the auth modifier, i.e. the full syntax is auth &T, whereas unauthorized references do not have a modifier. Lastly, References are ephemeral, i.e they cannot be stored. [More info](https://docs.onflow.org/cadence/language/references/)
-
-```cadence
-let a: String = "hello"
-let refOfA: &String = &a as auth &String
-```
-
-It can be also used as a logical operator (AND), by appearing twice in a row, similar to the double pipe symbol (|| which represents OR):
-
-```cadence
-let a = true
-let b = false
-
-let c = a && b // false
-```
-
 
 ## ? (question mark)
 
@@ -299,26 +285,31 @@ let b: Int = a ?? 42
 let c = 1 ?? 2
 ```
 
-## ! (exclamation mark)
+## _ (underscore)
 
-The exclamation mark can be used in several ways:
+In Cadence, the _ (underscore) has several uses.
 
-When it immediately **precedes** a boolean-type variable, it negates it.
+It can be used in variable names, or to split up numerical components.
 
-```cadence
-let a: Bool = true;
-let b: Bool = !a;
-
-// b is false
-```
-
-When it immediately **succeeds** an *optional* variable, it force-unwraps it. Force-unwrapping returns the value inside an optional if it contains a value, or panics and aborts the execution if the optional has no value, i.e., the optional value is nil.
+Examples:
 
 ```cadence
-let a: Int? = nil;
-let b: Int? = 3; 
+let _a = true; // used as a variable name 
 
-let c: Int = a! // panics, because = nil
-let d: Int = b! // initialized correctly as 3
+// or
+
+let b = 100_000_000 // used to split up a number (supports all number types, e.g. 0b10_11_01)
 ```
+
+It can also be used to omit the function argument label. Usually argument labels precede the parameter name. The special argument label _ indicates that a function call can omit the argument label. [More info](https://docs.onflow.org/cadence/language/functions/#function-declarations) 
+
+```cadence
+// The special argument label _ is specified for the parameter,
+// so no argument label has to be provided in a function call.
+//
+fun double(_ x: Int): Int {
+    return x * 2
+}
+```
+
 
