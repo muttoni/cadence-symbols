@@ -255,16 +255,6 @@ let countRef2: &Counter = authCountRef as? &Counter
 It is a big topic, so best to [read the documentation on it](https://docs.onflow.org/cadence/language/values-and-types/#optionals)
 
 
-```cadence
-let a: Bool = true; // assigns a value to a 
-
-// or
-
-fun addOne(x: Int): Int { // return type of Int
-    return x + 1
-}
-```
-
 It can also be used in ternary operations to represent the "otherwise" section, such as the following:
 
 
@@ -276,8 +266,7 @@ let a = 1 > 2 ? 3 : 4
 //   "if NO, then set a = 4.
 ```
 
-
-If can also be used as a nil-coalescing operator. The nil-coalescing operator `??` returns the value inside an optional if it contains a value, or returns an alternative value if the optional has no value, i.e., the optional value is nil. The nil-coalescing operator can only be applied to values which have an optional type.
+It can also be used as a nil-coalescing operator. The nil-coalescing operator `??` returns the value inside an optional if it contains a value, or returns an alternative value if the optional has no value, i.e., the optional value is nil. The nil-coalescing operator can only be applied to values which have an optional type.
 
 ```cadence
 // Declare a constant which has an optional integer type
