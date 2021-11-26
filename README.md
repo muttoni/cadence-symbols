@@ -10,6 +10,7 @@ Please feel free to send a PR with more/better examples and symbols.
 
 The @ symbol before a Type declaration is used to annotate whether a specific type is a Resource. Resources must therefore adhere to the Resource-specific lifecycle in Cadence (create, destroy, move). [More info](https://docs.onflow.org/cadence/language/resources/)
 
+
 ```cadence
 // Declare a resource named `SomeResource`
 pub resource SomeResource {
@@ -130,8 +131,20 @@ let a <- [
 ]
 ```
 
-
 Any additional uses for the <- symbol? File a PR!
+
+## <-! (lower than, hyphen, exclamation mark) (Force-assignment operator)
+
+Assigns a resource value to an optional variable if the variable is nil (if it is not nil, it aborts)
+
+This is only used for resources, as they use the exclamation mark.
+
+```cadence
+pub resource R {}
+
+var a: @R? <- nil
+a <-! create R()
+```
 
 ## <-> (lower than, hyphen, greater than) (swap operator)
 
