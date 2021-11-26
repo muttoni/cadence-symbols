@@ -6,7 +6,7 @@ Just <kbd>CTRL</kbd>/<kbd>CMD</kbd> + <kbd>F</kbd> and type in the symbol you wa
 
 Please feel free to send a PR with more/better examples and symbols.
 
-## @ (at) 
+## @ (at) 
 
 The @ symbol is used to denote whether a specific type is a resource, and must therefore adhere to the Resource-specific lifecycle in Cadence (create, destroy, move). [More info](https://docs.onflow.org/cadence/language/resources/)
 
