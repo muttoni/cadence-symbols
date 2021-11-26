@@ -239,7 +239,7 @@ The ? (question mark) symbol has several uses. If a ? follows a variable/constan
 let a: Int? = nil
 ```
 
-It can also be used after `as` to optionally down/upcast to a reference tyep
+When you see as?, that's a conditional downcasting operator. It can be used to downcast a value to a type. This operator returns an optional, and if the value has a type that is a subtype it will return the value as that type, otherwise it will return `nil`. [More info](https://docs.onflow.org/cadence/language/values-and-types/#conditional-downcasting-operator)
 
 ```cadence
 // a simple interface that expects a property count
