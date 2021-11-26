@@ -1,14 +1,14 @@
-# Cadence Symbols Cheatsheet
+# Cadence Symbols Glossary
 
-A simple TLDR reference containing all of Cadence's symbols and what they do. 
+A simple TLDR reference containing Cadence's symbols and operators and what they do. 
 
-Just <kbd>CTRL</kbd>/<kbd>CMD</kbd> + <kbd>F</kbd> and type in the symbol you want to look up.
+Just <kbd>CTRL</kbd>/<kbd>⌘</kbd> + <kbd>F</kbd> and type in the symbol you want to look up.
 
 Please feel free to send a PR with more/better examples and symbols.
 
 ## @ (at) 
 
-The @ symbol is used to denote whether a specific type is a resource, and must therefore adhere to the Resource-specific lifecycle in Cadence (create, destroy, move). [More info](https://docs.onflow.org/cadence/language/resources/)
+The @ symbol before a Type declaration is used to annotate whether a specific type is a Resource. Resources must therefore adhere to the Resource-specific lifecycle in Cadence (create, destroy, move). [More info](https://docs.onflow.org/cadence/language/resources/)
 
 ```cadence
 // Declare a resource named `SomeResource`
@@ -29,6 +29,8 @@ pub fun use(resource: @SomeResource) {
 }
 ```
 
+Any additional uses for the @ symbol? File a PR!
+
 ## = (equals)
 
 A simple assignment
@@ -36,6 +38,9 @@ A simple assignment
 ```cadence
 let a = 1; // assigns a value to a 
 ```
+
+
+Any additional uses for the = symbol? File a PR!
 
 ## : (colon)
 
@@ -61,6 +66,9 @@ let a = 1 > 2 ? 3 : 4
 //   "if YES, then set a = 3,
 //   "if NO, then set a = 4.
 ```
+
+
+Any additional uses for the : symbol? File a PR!
 
 ## _ (underscore)
 
@@ -88,6 +96,9 @@ fun double(_ x: Int): Int {
     return x * 2
 }
 ```
+
+
+Any additional uses for the _ symbol? File a PR! 
 
 ## <- (lower than, hyphen) (move operator)
 
@@ -119,6 +130,9 @@ let a <- [
 ]
 ```
 
+
+Any additional uses for the <- symbol? File a PR!
+
 ## <-> (lower than, hyphen, greater than) (swap operator)
 
 <-> is referred to as the Swap operatior. It swaps values between the variables to the left and right of it. [More info](https://docs.onflow.org/cadence/language/operators/#swapping)
@@ -131,6 +145,9 @@ a <-> b;
 // a = 2
 // b = 1
 ```
+
+
+Any additional uses for the <-> symbol? File a PR! 
 
 ## + (plus), - (minus), * (asterisk), / (forward slash), % (percentage sign)
 
@@ -148,8 +165,29 @@ These are all typical arithmetic operators.
 
 The & (ampersand) symbol has several uses. 
 
-It can be used as a logical operator (AND), by appearing twice in a row:
+The more Cadence-specific use is that of a Reference. In Cadence it is possible to create references to objects, i.e. resources or structures. A reference can be used to access fields and call functions on the referenced object. 
 
+References are created by using the & operator, followed by the object, the as keyword, and the type through which they should be accessed. The given type must be a supertype of the referenced object's type.
+
+[More info](https://docs.onflow.org/cadence/language/references/)
+
+```cadence
+let a: String = "hello"
+let refOfA: &String = &a as &String
+
+```
+
+References may be authorized or unauthorized.
+
+Authorized references have the auth modifier, i.e. the full syntax is auth &T, whereas unauthorized references do not have a modifier. Lastly, References are ephemeral, i.e they cannot be stored. [More info](https://docs.onflow.org/cadence/language/references/)
+
+```cadence
+let a: String = "hello"
+let refOfA: &String = &a as auth &String
+
+```
+
+It can be also used as a logical operator (AND), by appearing twice in a row, similar to the double pipe symbol (|| which represents OR):
 
 ```cadence
 let a = true
@@ -158,12 +196,42 @@ let b = false
 let c = a && b // false
 ```
 
-It can also be used to 
-
 
 ## ? (question mark)
 
-The ? (question mark) symbol has several uses. If a ? follows a variable/constant, it represents an optional. An optional can either have a value or *nothing at all*. This is important so we can simplify 
+The ? (question mark) symbol has several uses. If a ? follows a variable/constant, it represents an optional. An optional can either have a value or *nothing at all*. 
+
+```cadence
+// Declare a constant which has an optional integer type
+//
+let a: Int? = nil
+```
+
+It can also be used after `as` to optionally down/upcast to a reference tyep
+
+```cadence
+// a simple interface that expects a property count
+resource interface HasCount {
+  count : Int
+}
+
+// a Counter resource that conforms to HasCount
+resource Counter: HasCount {
+      pub var count: Int
+
+    pub init(count: Int) {
+        self.count = count
+    }
+}
+
+// set a reference countRef to &counter with the hasCount interface 
+// this is important because ONLY methods in HasCount will be available!
+let countRef: &{HasCount} = &counter as &{HasCount}
+
+// BUT, we could also optionally downcast it to Counter
+let authCountRef: auth &{HasCount} = &counter as auth &{HasCount}
+let countRef2: &Counter = authCountRef as? &Counter
+```
 
 It is a big topic, so best to [read the documentation on it](https://docs.onflow.org/cadence/language/values-and-types/#optionals)
 
